@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Collectable : MonoBehaviour
 {
-    private int pontos = 1;
+    public TMP_Text texto_pontos;
+    public ParticleSystem efeito;
 
-    // Start is called before the first frame update
-    void Start()
+    int pontos = 0;
+    private void OnTriggerEnter2D(Collider2D colisao)
     {
-        Debug.Log("Pontos: \n" + pontos);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Debug.Log("Its over!!");
+        if (colisao.CompareTag("Player"))
+        {
+           pontos++;
+           texto_pontos.text = "Pontos: " + pontos.ToString();
+            colisao.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            Instantiate(efeito, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }
